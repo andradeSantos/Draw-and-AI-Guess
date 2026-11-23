@@ -1,0 +1,107 @@
+{
+  "model_version": "cnn-v1.0.0",
+  "trained_at": "2026-11-23T04:05:44.427687+00:00",
+  "num_classes": 18,
+  "classes": [
+    {
+      "index": 0,
+      "label": "digit_0",
+      "display_pt": "0"
+    },
+    {
+      "index": 1,
+      "label": "digit_1",
+      "display_pt": "1"
+    },
+    {
+      "index": 2,
+      "label": "digit_2",
+      "display_pt": "2"
+    },
+    {
+      "index": 3,
+      "label": "digit_3",
+      "display_pt": "3"
+    },
+    {
+      "index": 4,
+      "label": "digit_4",
+      "display_pt": "4"
+    },
+    {
+      "index": 5,
+      "label": "digit_5",
+      "display_pt": "5"
+    },
+    {
+      "index": 6,
+      "label": "digit_6",
+      "display_pt": "6"
+    },
+    {
+      "index": 7,
+      "label": "digit_7",
+      "display_pt": "7"
+    },
+    {
+      "index": 8,
+      "label": "digit_8",
+      "display_pt": "8"
+    },
+    {
+      "index": 9,
+      "label": "digit_9",
+      "display_pt": "9"
+    },
+    {
+      "index": 10,
+      "label": "star",
+      "display_pt": "Estrela"
+    },
+    {
+      "index": 11,
+      "label": "house",
+      "display_pt": "Casa"
+    },
+    {
+      "index": 12,
+      "label": "circle",
+      "display_pt": "Círculo"
+    },
+    {
+      "index": 13,
+      "label": "triangle",
+      "display_pt": "Triângulo"
+    },
+    {
+      "index": 14,
+      "label": "square",
+      "display_pt": "Quadrado"
+    },
+    {
+      "index": 15,
+      "label": "heart",
+      "display_pt": "Coração"
+    },
+    {
+      "index": 16,
+      "label": "cloud",
+      "display_pt": "Nuvem"
+    },
+    {
+      "index": 17,
+      "label": "tree",
+      "display_pt": "Árvore"
+    }
+  ],
+  "confidence_threshold": 0.75,
+  "margin_threshold": 0.1,
+  "metrics": {
+    "best_val_accuracy": 0.9746,
+    "test_accuracy": 0.9781,
+    "test_accuracy_when_confident": 0.9943,
+    "test_confident_coverage": 0.9398,
+    "noise_rejection_rate": 0.89,
+    "cpu_inference_latency_ms": 39.94
+  }
+}

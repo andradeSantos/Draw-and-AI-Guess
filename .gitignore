@@ -1,0 +1,33 @@
+# Ambiente e Segredos
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Node / Next.js
+node_modules/
+frontend/.next/
+frontend/out/
+frontend/dist/
+npm-debug.log*
+
+# ML: Datasets brutos e pesos pesados
+ml/data/raw/
+ml/data/processed/
+ml/artifacts/*.pt
+ml/artifacts/*.pth
+ml/artifacts/*.onnx
+
+# Sistema / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
