@@ -28,6 +28,14 @@ O Museu Ciência Viva precisa de uma atração interativa em que visitantes dese
 - **FastAPI + PostgreSQL 16 (Docker Compose):** Mesmo ecossistema Python do PyTorch, contratos validados com Pydantic v2 e persistência relacional em duas tabelas (`predictions` e `feedbacks` com FK única `prediction_id`), evitando duplicidade de votos (`409 Conflict`) e armazenando zero dados pessoais.
 - **Next.js (Canvas + Dashboard + Simulador de Chat Offline):** Interface única com alternância entre **Visitante** (`Canvas 360x360` via `PointerEvent`) e **Equipe do Museu** (Dashboard com agregações SQL em tempo real e chat determinístico offline por intenção sobre `GET /stats`, sem depender de LLMs ou tokens pagos).
 
+### Chat de Estatísticas: Motor Determinístico + SQL vs. RAG
+Para as consultas da equipe do museu (`POST /chat` em `backend/app/services/chat_service.py`), optamos por **roteamento determinístico por intenção sobre agregações SQL** (`get_aggregated_stats`) em vez de um pipeline **RAG**:
+- **Simplicidade de código e manutenção:** Dispensa *chunking*, modelos de *embeddings*, banco vetorial e orquestração de prompts; toda a lógica cabe em um módulo enxuto e legível.
+- **Menor consumo de recursos (100% CPU):** Evita carregar LLMs ou modelos de *embeddings* em memória (que competiriam com a CNN em CPU) e mantém a latência na casa de milissegundos.
+- **Precisão numérica e zero alucinação:** RAG é voltado a texto não estruturado, enquanto métricas do museu (`COUNT`, taxa de acerto, ranking de confusões) exigem cálculo SQL exato em tempo real no PostgreSQL.
+- **Determinismo e testabilidade:** A mesma pergunta sempre mapeia para a mesma intenção (`summary`, `confusions`, `accuracy`, `volume`, `help`) e retorna dados estruturados previsíveis, facilitando testes automatizados.
+- **Critério de evolução:** RAG só passaria a fazer sentido se o chat precisasse responder perguntas abertas sobre documentos longos da exposição (ex.: manuais curatoriais), e não métricas tabulares.
+
 ---
 
 ## 3. Como medimos se a solução funciona
