@@ -14,11 +14,25 @@ Atração interativa 100% local para o **Museu Ciência Viva** (fictício): o vi
 
 ## Como Instalar e Rodar (em até 5 comandos)
 
-> **Pré-requisitos:** Docker + Docker Compose, Python 3.11+ e Node.js 20+.
+> **Pré-requisitos:** Docker + Docker Compose (ou Python 3.11+ e Node.js 20+ para execução local sem containers).
+
+### Opção Recomendada — Stack Completa via Docker Compose (2 comandos)
 
 ```bash
-# 1. Configurar variáveis locais e subir o PostgreSQL 16
-cp .env.example .env && docker compose up -d
+# 1. Copiar variáveis de ambiente locais
+cp .env.example .env
+
+# 2. Subir PostgreSQL 16 + Backend FastAPI (com /ml) + Frontend Next.js
+docker compose up --build -d
+```
+
+Acesse **`http://localhost:3000`** no navegador (API disponível em `http://localhost:8000/health`).
+
+### Execução Manual Local (sem Docker para API/Frontend, 5 comandos)
+
+```bash
+# 1. Configurar ambiente e subir apenas o PostgreSQL 16
+cp .env.example .env && docker compose up -d postgres
 
 # 2. Criar ambiente virtual Python e instalar dependências de Backend e ML
 python3 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt torch torchvision numpy pillow pytest
@@ -32,8 +46,6 @@ python3 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt torch
 # 5. Em outro terminal, instalar dependências e iniciar o Frontend Next.js (porta 3000)
 cd frontend && npm install && npm run dev
 ```
-
-Acesse **`http://localhost:3000`** no navegador.
 
 ---
 

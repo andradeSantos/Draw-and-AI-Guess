@@ -17,5 +17,43 @@ services:
       timeout: 5s
       retries: 5
 
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: draw_ia_backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-museu_user}:${POSTGRES_PASSWORD:-museu_pass_local}@postgres:5432/${POSTGRES_DB:-draw_ia_db}
+      MODEL_ARTIFACTS_DIR: ${MODEL_ARTIFACTS_DIR:-ml/artifacts}
+      UNKNOWN_CONFIDENCE_THRESHOLD: ${UNKNOWN_CONFIDENCE_THRESHOLD:-0.75}
+      UNKNOWN_MARGIN_THRESHOLD: ${UNKNOWN_MARGIN_THRESHOLD:-0.10}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    container_name: draw_ia_frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+
 volumes:
   postgres_data:
